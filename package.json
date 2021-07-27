@@ -17,6 +17,7 @@
     "mongoose": "^5.13.3",
     "passport": "^0.4.1",
     "passport-http-bearer": "^1.0.1",
+    "pdf-creator-node": "^2.2.3",
     "qrcode": "^1.4.4"
   }
 }

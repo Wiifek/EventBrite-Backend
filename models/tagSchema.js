@@ -5,6 +5,9 @@ var tagSchema = new Schema(
     {
         name: {type:String},
         description: {type:String}
+    },{
+        timestamps: true,
+        versionKey: false
     }
 );
 

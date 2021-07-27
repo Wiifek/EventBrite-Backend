@@ -12,7 +12,10 @@ var userSchema = new Schema(
         address: {type: String},
         phone: {type: String},
         avatar: {type: String},
-        tickets: {type: mongoose.Schema.Types.ObjectId, ref:'ticket'}
+        tickets: [{type: mongoose.Schema.Types.ObjectId, ref:'ticket'}]
+    },{
+        timestamps: true,
+        versionKey: false
     }
 );
 

@@ -2,96 +2,113 @@ const EventSchema = require("../models/eventSchema")
 const TagSchema = require('../models/tagSchema')
 
 //Get all events
-exports.getAllEvents= async (req,res,next)=>{
-    const events = await EventSchema.find({})
-    res.json(events);
+exports.getAllEvents = async (req, res) => {
+    try {
+        const events = await EventSchema.find({})
+        res.json(events);
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
+    }
 }
 
 //Get event by id
-exports.getEventById = async (req,res,next)=>{
-    const id = req.params.id;
-    await EventSchema.findById(id,(err, event)=> {
-        if (err) return res.json("Event not found!");
-        res.json(event);
-    })
+exports.getEventById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const event = await EventSchema.findById(id);
+        if (event) {
+            res.json(event);
+        } else {
+            res.status(404).json({ message: 'Event not foud!' })
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
+    }
 }
 
 //Edit existant event
-exports.editEvent= async (req,res,next)=>{
-    const event = req.body;
-    const id = req.params.uid;
-    const e = await EventSchema.findById(id);
-    if(!e)
-        res.json({message:"This event does not exist!"});
-    else{
-        try{
-            await EventSchema.findByIdAndUpdate(id, event);
-            res.json({message:"Event with id "+id+"  has been updated successfuly"})
+exports.editEvent = async (req, res) => {
+    try {
+        const eventData = req.body;
+        const id = req.params.id;
+        const event = await EventSchema.findById(id);
+        if (!event)
+            res.status(404).json({ message: "This event does not exist!" });
+        else {
+            const updatedEvent = await EventSchema.findByIdAndUpdate(id, eventData, { new: true });
+            res.json(updatedEvent)
         }
-        catch(err){
-            console.err(err)
-        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }
 
 //Delete event
-exports.deleteEvent = async(req,res,next)=>{
-    const id = req.params.uid;
-    const event = await EventSchema.findById(id);
-    if(!event)
-        res.json({message:"This event does not exist!"});
-    else{
-        try{
+exports.deleteEvent = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const event = await EventSchema.findById(id);
+        if (!event)
+            res.status(404).json({ message: "This event does not exist!" });
+        else {
             await EventSchema.findByIdAndRemove(id);
-            res.json({message:"Event with id "+id+" has been deleted successfuly"})
+            res.json({ message: "Event with id " + id + " has been deleted successfuly" })
         }
-        catch(err){
-            console.err(err)
-        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }
 
 //Add tag to event
-exports.addTag = async(req,res,next)=>{
-    const id = req.params.uid;
-    const tagid = req.params.tagid;
-    const tag = await TagSchema.findById(tagid);
-    const e = await EventSchema.findById(id);
-    try{
-        if(!e)
-        res.json({message:"Event does not exist!"})
-        else if(!tag)
-            res.json({message:"This tag does not exist!"})
-        else{
-            const event =await EventSchema.findByIdAndUpdate(id, {$push : {tags: tag._id}});
-            const updatedEvent = await EventSchema.findById(event._id)
-            res.json(updatedUser)
+exports.addTag = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const tagid = req.params.tagid;
+        const tag = await TagSchema.findById(tagid);
+        const event = await EventSchema.findById(id);
+        if (!event)
+            res.status(404).json({ message: "Event does not exist!" })
+        else if (!tag)
+            res.json({ message: "This tag does not exist!" })
+        else {
+            const updatedEvent = await EventSchema.findByIdAndUpdate(id, { $push: { tags: tag._id } }, { new: true });
+            // {new: true} return updated object
+            res.json(updatedEvent)
         }
     }
-    catch(err){
-        console.error(err)
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }
 
 
 //Remove element from tags array
-exports.removeTag = async(req,res)=>{
-    const id = req.params.uid;
-    const tagid = req.params.tagid;
-    const tag = await todoSchema.findById(tagid);
-    const e = await EventSchema.findById(id);
-    try{
-        if(!e)
-        res.json({message:"Event does not exist!"})
-        else if(!todo)
-            res.json({message:"This tag does not exist!"})
-        else{
-            const event =await EventSchema.findByIdAndUpdate(id, {$pull : {tags: tag._id}});
-            const updatedEvent = await EventSchema.findById(event._id)
+exports.removeTag = async (req, res) => {
+    try {
+        const id = req.params.uid;
+        const tagid = req.params.tagid;
+        const tag = await todoSchema.findById(tagid);
+        const event = await EventSchema.findById(id);
+        if (!event)
+            res.status(404).json({ message: "Event does not exist!" })
+        else if (!todo)
+            res.json({ message: "This tag does not exist!" })
+        else {
+            const updatedEvent = await EventSchema.findByIdAndUpdate(id, { $pull: { tags: tag._id } }, { new: true });
             res.json(updatedEvent)
         }
     }
-    catch(err){
-        console.error(err)
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }

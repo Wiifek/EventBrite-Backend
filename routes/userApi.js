@@ -3,8 +3,9 @@ const router = express.Router()
 const uc = require('../controllers/userController')
 const passport = require('passport')
 
+// passport.authenticate('bearer', { session: false })
 //Get all users
-router.get("/", passport.authenticate('bearer', { session: false }, { failureRedirect: '/login' }), uc.getAllUsers)
+router.get("/", uc.getAllUsers)
 
 //Get user by id
 router.get("/:id", passport.authenticate('bearer', { failureRedirect: '/login' }), uc.getUserById)

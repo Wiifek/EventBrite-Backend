@@ -8,6 +8,9 @@ var ticketSchema = new Schema(
         QRCode: {type: String},
         QRCodePath: {type: String},
         ticketPath: {type: String}
+    },{
+        timestamps: true,
+        versionKey: false
     }
 );
 

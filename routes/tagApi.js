@@ -10,10 +10,10 @@ router.get("/", passport.authenticate('bearer', { session: false }, { failureRed
 router.get("/:id", passport.authenticate('bearer', { failureRedirect: '/login' }), tc.getTagById)
 
 //Edit existant tag
-router.put("/edittag/:uid",passport.authenticate('bearer', { failureRedirect: '/login' }), tc.editTag)
+router.put("/edittag/:id",passport.authenticate('bearer', { failureRedirect: '/login' }), tc.editTag)
 
 //Delete tag
-router.delete("/deletetag/:uid",passport.authenticate('bearer', { failureRedirect: '/login' }), tc.deleteTag)
+router.delete("/deletetag/:id",passport.authenticate('bearer', { failureRedirect: '/login' }), tc.deleteTag)
 
 
 module.exports = router

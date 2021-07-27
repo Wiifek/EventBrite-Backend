@@ -29,6 +29,7 @@ exports.register = async(req,res, next)=>{
         })
     } catch (err) {
         console.log(err);
+        res.status(500).send("Internal server error!");
     }
 }
 
@@ -48,7 +49,7 @@ exports.login = async(req,res, next)=>{
             { user_id: user._id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn: "2h",
+                expiresIn:process.env.TOKEN_EXPIRE_IN,
             }
             );
 
@@ -59,6 +60,7 @@ exports.login = async(req,res, next)=>{
             }
         res.status(400).send("Invalid Credentials");
     } catch (err) {
-    console.log(err);
+        console.log(err);
+        res.status(500).send("Internal server error!");
     }
 }

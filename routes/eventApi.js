@@ -10,16 +10,16 @@ router.get("/", passport.authenticate('bearer', { session: false }, { failureRed
 router.get("/:id", passport.authenticate('bearer', { failureRedirect: '/login' }), ec.getEventById)
 
 //Edit existant event
-router.put("/editevent/:uid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.editEvent)
+router.put("/editevent/:id",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.editEvent)
 
 //Delete event
-router.delete("/deleteevent/:uid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.deleteEvent)
+router.delete("/deleteevent/:id",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.deleteEvent)
 
 //Add tag to event
-router.put("/addtag/:uid/:tagid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.addTag)
+router.put("/addtag/:id/:tagid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.addTag)
 
 //Remove tag from the event
-router.delete("/removetag/:uid/:tagid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.removeTag)
+router.delete("/removetag/:id/:tagid",passport.authenticate('bearer', { failureRedirect: '/login' }), ec.removeTag)
 
 
 module.exports = router

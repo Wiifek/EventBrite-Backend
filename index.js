@@ -5,7 +5,8 @@ const port = 3000
 
 require("dotenv").config();
 
-const connect = require('./dbConnection')
+const connect = require('./database/dbConnection')
+const BearerStrategy = require('./passport/bearerStrategy')
 const auth = require('./routes/authApi')
 const user = require('./routes/userApi')
 const event = require('./routes/eventApi')

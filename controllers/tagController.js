@@ -1,51 +1,66 @@
 const TagSchema = require("../models/tagSchema")
 
 //Get all tags
-exports.getAllTags= async (req,res,next)=>{
-    const tags = await TagSchema.find({})
-    res.json(tags);
+exports.getAllTags = async (req, res) => {
+    try {
+        const tags = await TagSchema.find({})
+        res.json(tags);
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
+    }
 }
 
 //Get tag by id
-exports.getTagById = async (req,res,next)=>{
-    const id = req.params.id;
-    await TagSchema.findById(id,(err, tag)=> {
-        if (err) return res.json("Tag not found!");
-        res.json(event);
-    })
+exports.getTagById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const tag = await TagSchema.findById(id)
+        if (tag)
+            res.json(tag);
+        else res.status(404).json({ message: 'Tag not foud!' })
+
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
+    }
 }
 
 //Edit existant tag
-exports.editTag= async (req,res,next)=>{
-    const tag = req.body;
-    const id = req.params.uid;
-    const e = await TagSchema.findById(id);
-    if(!e)
-        res.json({message:"This tag does not exist!"});
-    else{
-        try{
-            await TagSchema.findByIdAndUpdate(id, tag);
-            res.json({message:"Tag with id "+id+"  has been updated successfuly"})
+exports.editTag = async (req, res) => {
+    try {
+        const tagData = req.body;
+        const id = req.params.id;
+        const tag = await TagSchema.findById(id);
+        if (!tag)
+            res.json({ message: "This tag does not exist!" });
+        else {
+            const updatedTag = await TagSchema.findByIdAndUpdate(id, tagData, { new: true });
+            res.json(updatedTag)
         }
-        catch(err){
-            console.err(err)
-        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }
 
 //Delete tag
-exports.deleteTag = async(req,res,next)=>{
-    const id = req.params.uid;
-    const tag = await TagSchema.findById(id);
-    if(!tag)
-        res.json({message:"This tag does not exist!"});
-    else{
-        try{
+exports.deleteTag = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const tag = await TagSchema.findById(id);
+        if (!tag)
+            res.json({ message: "This tag does not exist!" });
+        else {
             await TagSchema.findByIdAndRemove(id);
-            res.json({message:"Tag with id "+id+" has been deleted successfuly"})
+            res.json({ message: "Tag with id " + id + " has been deleted successfully" })
         }
-        catch(err){
-            console.err(err)
-        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send("Internal server error!");
     }
 }
