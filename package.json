@@ -10,6 +10,13 @@
   "author": "Wifek",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.3",
+    "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
+    "qrcode": "^1.4.4"
   }
 }
