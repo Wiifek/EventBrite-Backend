@@ -1,4 +1,7 @@
 const UserSchema = require("../models/userSchema")
+//for uploading profile image
+const multer = require('multer');
+const path = require("path");
 
 //Get all users
 exports.getAllUsers = async (req, res) => {
@@ -37,7 +40,13 @@ exports.editUser = async (req, res) => {
         if (!user)
             res.status(404).json({ message: "This user does not exist!" });
         else {
-
+            // update avatar 
+            if(req.file)
+            {
+              const fileName = `${process.env.PUBLIC_URL}/avatars/${req.file.filename}`;
+              userData.avatar = fileName;
+            }
+            //end update avatar 
             const updatedUser = await UserSchema.findByIdAndUpdate(id, userData, { new: true });
             res.json(updatedUser)
         }
@@ -108,3 +117,37 @@ exports.showUserTickets = async (req, res) => {
         res.status(500).json({message : "Internal server error!"});
     }
 }
+
+
+//image upload with multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, './public/avatars');
+    },
+    filename: (req, file, cb) => {
+      const newFileName = Date.now() + path.extname(file.originalname);
+      cb(null, newFileName)
+    }
+  });
+  
+  const fileFilter = (req, file, cb) => {
+      const fileExtension = path.extname(file.originalname);
+      const allowedExtensions = [".jpeg", ".jpg", ".png", ".gif"]
+      if (allowedExtensions.includes(fileExtension))
+        cb(null, true)
+      else
+      cb(null, false)
+  
+      //  cb("Error: File upload only supports the following filetypes: jpeg, png, gif")
+  }
+  
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+  });
+
+// update avatar 
+exports.updateAvatar = upload.single('avatar');

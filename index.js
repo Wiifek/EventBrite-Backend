@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   res.json({ message  : 'Welcome to EventBrite API!'});
 })
 
-app.use("/uploads", express.static('uploads'))
+app.use("/public", express.static('public'));
 
 app.use("", auth)
 app.use("/users",user)
