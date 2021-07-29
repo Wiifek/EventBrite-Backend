@@ -11,11 +11,12 @@ const auth = require('./routes/authApi')
 const user = require('./routes/userApi')
 const event = require('./routes/eventApi')
 const tag = require('./routes/tagApi')
+const ticket = require('./routes/ticketApi')
 
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.json({ message  : 'Welcome to EventBrite API!'});
 })
 
 app.use("/uploads", express.static('uploads'))
@@ -24,6 +25,7 @@ app.use("", auth)
 app.use("/users",user)
 app.use("/events",event)
 app.use("/tags",tag)
+app.use("/tickets",ticket)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

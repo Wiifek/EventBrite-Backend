@@ -9,7 +9,7 @@ exports.getAllEvents = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -26,7 +26,7 @@ exports.getEventById = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -45,7 +45,7 @@ exports.editEvent = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -63,7 +63,7 @@ exports.deleteEvent = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -86,7 +86,7 @@ exports.addTag = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -109,6 +109,6 @@ exports.removeTag = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }

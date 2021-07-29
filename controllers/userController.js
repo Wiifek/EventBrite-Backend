@@ -7,7 +7,7 @@ exports.getAllUsers = async (req, res) => {
         res.json(users);
     } catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -24,7 +24,7 @@ exports.getUserById = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -44,7 +44,7 @@ exports.editUser = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -63,7 +63,7 @@ exports.deleteUser = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -86,7 +86,7 @@ exports.cancelTicket = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -99,12 +99,12 @@ exports.showUserTickets = async (req, res) => {
         if (!user)
             res.json({ message: "User does not exist!" })
         else {
-            const list = await UserSchema.findById(id).populate('tickets');
-            res.json(list)
+            const userWithTickets = await UserSchema.findById(id).populate('tickets');
+            res.json(userWithTickets.tickets)
         }
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }

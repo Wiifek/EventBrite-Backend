@@ -8,7 +8,7 @@ exports.getAllTags = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -19,12 +19,13 @@ exports.getTagById = async (req, res) => {
         const tag = await TagSchema.findById(id)
         if (tag)
             res.json(tag);
-        else res.status(404).json({ message: 'Tag not foud!' })
+        else 
+            res.status(404).json({ message: 'Tag not foud!' })
 
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -43,7 +44,7 @@ exports.editTag = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
@@ -61,6 +62,6 @@ exports.deleteTag = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }

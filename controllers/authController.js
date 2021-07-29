@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 
 //Register
-exports.register = async(req,res, next)=>{
+exports.register = async (req, res) => {
     try {
         const email = req.body.email;
         // check if user already exist
@@ -12,7 +12,7 @@ exports.register = async(req,res, next)=>{
         const oldUser = await UserSchema.findOne({ email });
 
         if (oldUser) {
-        return res.status(409).send("User Already Exist. Please Login");
+            return res.status(400).json({message:"E-mail address already exist. Please choose another e-mail."});
         }
 
         //Encrypt user password
@@ -24,43 +24,50 @@ exports.register = async(req,res, next)=>{
 
         // return new user
         res.status(201).json({
-            message: "user added successfully",
+            message: "User registred successfully.",
             user: user
         })
     } catch (err) {
         console.log(err);
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
 
 //login
-exports.login = async(req,res, next)=>{
+exports.login = async (req, res) => {
     try {
         // Get user input
         const { email, password } = req.body;
 
         // Validate if user exist in our database
         const user = await UserSchema.findOne({ email });
-    
+
         if (user && (await bcrypt.compare(password, user.password))) {
             ///if (user && (password === user.password)) {
-            // Create token
+            // Create JWT token
+            const tokenData = {
+                user_id: user._id,
+                email: user.email,
+                role: user.role
+            };
             const token = jwt.sign(
-            { user_id: user._id, email },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn:process.env.TOKEN_EXPIRE_IN,
-            }
+                tokenData,
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: process.env.TOKEN_EXPIRE_IN,
+                }
             );
 
-            // user
+            // return response
             res.status(200).json({
-                message: "Auth successful",
-                token: token});
-            }
-        res.status(400).send("Invalid Credentials");
+                message: "Authentificatin successfully.",
+                token: token
+            });
+        } else {
+            res.status(400).json({message : "Invalid credentials."});
+        }
     } catch (err) {
         console.log(err);
-        res.status(500).send("Internal server error!");
+        res.status(500).json({message : "Internal server error!"});
     }
 }
