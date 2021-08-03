@@ -22,7 +22,6 @@ const tag = require('./routes/tagApi')
 const ticket = require('./routes/ticketApi')
 const reservation = require('./routes/reservationApi')
 const resetPassword = require('./routes/resetPasswordApi')
-const forgetPassword = require('./routes/forgotPasswordApi')
 
 
 
@@ -35,8 +34,7 @@ app.use("/events",event)
 app.use("/tags",tag)
 app.use("/tickets",ticket)
 app.use("/bookTicket",reservation)
-app.use("/resetPassword", resetPassword)
-app.use("/forgetPassword", forgetPassword)
+app.use("", resetPassword)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
