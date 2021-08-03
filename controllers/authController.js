@@ -60,7 +60,7 @@ exports.login = async (req, res) => {
 
             // return response
             res.status(200).json({
-                message: "Authentificatin successfully.",
+                message: "Authenticating successfully.",
                 token: token
             });
         } else {

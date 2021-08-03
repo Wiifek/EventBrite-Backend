@@ -11,7 +11,7 @@ var userSchema = new Schema(
         birthDate: {type: Date},
         address: {type: String},
         phone: {type: String},
-        avatar: {type: String},
+        avatar: {type: String, default: `${process.env.PUBLIC_URL}/avatars/avatar.jpg`},
         tickets: [{type: mongoose.Schema.Types.ObjectId, ref:'ticket'}]
     },{
         timestamps: true,

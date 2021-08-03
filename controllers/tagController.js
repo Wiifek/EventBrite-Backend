@@ -12,6 +12,19 @@ exports.getAllTags = async (req, res) => {
     }
 }
 
+//Add tag
+exports.addTag = async(req,res)=>{
+    try {
+        const tagData = req.body;
+        const createdTag = await TagSchema.create(tagData);
+        res.json(createdTag);
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({message : "Internal server error!"});
+    }
+}
+
 //Get tag by id
 exports.getTagById = async (req, res) => {
     try {

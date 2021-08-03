@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}
 
-mongoose.connect('mongodb://localhost:27017/eventBrite', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/eventBrite', options)
     .then(
         () => {
             console.log("Successfully connected to database")
