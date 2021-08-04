@@ -1,25 +1,15 @@
 const bcrypt = require('bcrypt');
 const Token = require('../models/tokenSchema')
 const crypto = require("crypto")
-const nodemailer = require("nodemailer")
+const fs = require('fs');
+const ejs = require('ejs');
 const UserSchema = require('../models/userSchema')
+const sendMail = require('../utils/sendMail')
 
-//send email
-let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
-    auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
 
 exports.forgotPassword = async (req, res) => {
     try {
         const email = req.body.email
-        const newPassword = req.body.newPassword
-
         const user = await UserSchema.findOne({ email });
 
         if (!user) {
@@ -38,10 +28,9 @@ exports.forgotPassword = async (req, res) => {
             })
 
             const link = `${process.env.CLIENT_URL}/#/examples/reset-password/${resetToken}`;
+            const html = fs.readFileSync("views/resetPasswordTemplate.html", "utf8");
 
-            const render = `Hi ${user.firstName},<br>You requested to reset your password.<br>
-            Please click the link beow to reset your password.<br>
-            <a href="${link}">Reset password</a>`;
+            const render = ejs.render(html, {fullName: `${user.firstName} ${user.lastName}`, link})
 
             // send mail with defined transport object
             let info = {
@@ -51,7 +40,7 @@ exports.forgotPassword = async (req, res) => {
                 // text: "", // plain text body
                 html: render
             };
-            await transporter.sendMail(info)
+            await sendMail.sendMail(info)
             res.json({ message: 'Check your mailbox' })
         }
     }
@@ -83,7 +72,7 @@ exports.passwordReset = async (req, res) => {
                     // text: "", // plain text body
                     html: `Hi ${user.firstName},<br>Your password has been reset successfully`
                 };
-                await transporter.sendMail(info);
+                await sendMail.sendMail(info);
                 await passwordResetToken.deleteOne();
                 res.json({ message: 'Check your mailbox' })
             }

@@ -108,7 +108,7 @@
 						<tr>
 							<td class="title">
 								<img src="<%=eventBriteLogo%>"
-									style="width: 100%; max-width: 300px" />
+									style=" width: 90px;" />
 							</td>
 						<tr class="information">
 							<td colspan="2">
@@ -116,19 +116,19 @@
 									<tr>
 										<td>
 											<h2>Event Name</h2><br />
-											{{reservation.eventName}}
+											<%=reservation.eventName%>
 										</td>
 
 										<td>
 											<h2>Address</h2><br />
-											{{reservation.address}}
+											<%=reservation.address%>
 										</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<td>
-							<h2>Booking Reference #:</h2> {{reservation.ref}}<br />
+							<h2>Booking Reference #:</h2> <%=reservation.ref%><br />
 						</td>
 			</tr>
 		</table>
@@ -142,9 +142,9 @@
 		</tr>
 
 		<tr class="details">
-			<td>{{reservation.startDate}} - {{reservation.endDate}}</td>
+			<td><%=reservation.startDate%> - <%=reservation.endDate%></td>
 
-			<td>from {{reservation.startTime}} to {{reservation.endTime}}</td>
+			<td>from <%=reservation.startTime%> to <%=reservation.endTime%></td>
 		</tr>
 
 		<tr class="heading">
@@ -152,7 +152,7 @@
 		</tr>
 
 		<tr class="item">
-			<td>{{reservation.fullName}}</td>
+			<td><%=reservation.fullName%></td>
 		</tr>
 
 		<tr class="item">
@@ -162,7 +162,7 @@
 
 		</table>
 		<div style="text-align: center;">
-			<img src="<%=QRCodePath%>" alt="QR Code"/>
+			<img  width="150" src="<%=QRCodePath%>" alt="QR Code"/>
 		</div>
 	</div>
 </body>
