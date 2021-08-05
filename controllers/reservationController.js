@@ -56,16 +56,18 @@ exports.addTicket = async (req, res) => {
             // 4. send ticket pdf into mail (as an  attachements)
             // 4.1. Create PDF file 
             const html = fs.readFileSync("views/reservationTemplate.html", "utf8");
+            const htmlEmail = fs.readFileSync("views/reservationEmailTemplate.html", "utf8");
             const eventBriteLogo = `${process.env.PUBLIC_URL}/eventBrite.png`
             const pdfParams = { reservation: reservationData, QRCodePath, eventBriteLogo }
             const renderedHtml = ejs.render(html, pdfParams)
+            const templateEmailRender = ejs.render(htmlEmail, {fullName: reservationData.fullName})
 
             const options = {
                 format: "A4",
                 orientation: "portrait",
                 border: "10mm",
                 header: {
-                    height: "45mm",
+                    height: "20mm",
                     contents: `<div style="text-align: center;"><h1>${reservationData.eventName}</h1></div>`
                 },
                 footer: {
@@ -103,8 +105,7 @@ exports.addTicket = async (req, res) => {
                 from: process.env.EMAIL_USERNAME, // sender address
                 to: req.user.email, // list of receivers
                 subject: "Ticket Confirmation", // Subject line
-                text: "Here is your ticket", // plain text body
-                // html: emailTemplate(user.name, user.email),
+                html: templateEmailRender,
                 attachments: [{
                     // stream as an attachment
                     filename: 'ticket.pdf',
