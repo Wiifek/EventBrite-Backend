@@ -1,8 +1,9 @@
 const express = require('express')
 const morgan = require('morgan')
 const dotenv = require("dotenv");
+const cors = require('cors') 
 const app = express()
-const port = 3000
+const port = 4000
 
 // body parser json 
 app.use(express.json())
@@ -12,6 +13,8 @@ dotenv.config();
 app.use(morgan('dev'))
 // set public static folder 
 app.use("/public", express.static('public'));
+//Cors config
+app.use(cors());
 
 const connect = require('./database/dbConnection')
 const BearerStrategy = require('./passport/bearerStrategy')

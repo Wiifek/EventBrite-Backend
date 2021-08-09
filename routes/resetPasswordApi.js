@@ -5,6 +5,6 @@ const rpc = require('../controllers/resetPasswordController')
 //Request password reset
 router.post("/forgot-password", rpc.forgotPassword)
 //Password reset
-router.get("/reset-password/:token", rpc.passwordReset)
+router.post("/reset-password/:token", rpc.passwordReset)
 
 module.exports = router

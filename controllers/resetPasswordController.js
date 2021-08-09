@@ -63,6 +63,9 @@ exports.passwordReset = async (req, res) => {
                 { $set: { password: encryptedNewPassword } },
                 { new: true }
             );
+            const html = fs.readFileSync("views/resetSuccessfulTemplate.html", "utf8");
+
+            const render = ejs.render(html, {fullName: `${user.firstName} ${user.lastName}`})
             if (user.email) {
                 // send mail with defined transport object
                 const info = {
@@ -70,7 +73,7 @@ exports.passwordReset = async (req, res) => {
                     to: user.email, // list of receivers
                     subject: "Password Reset Successfully", // Subject line
                     // text: "", // plain text body
-                    html: `Hi ${user.firstName},<br>Your password has been reset successfully`
+                    html: render
                 };
                 await sendMail.sendMail(info);
                 await passwordResetToken.deleteOne();
