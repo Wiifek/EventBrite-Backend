@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const dotenv = require("dotenv");
 const cors = require('cors') 
 const app = express()
-const port = 3000
+const port = 4000
 
 // body parser json 
 app.use(express.json())
