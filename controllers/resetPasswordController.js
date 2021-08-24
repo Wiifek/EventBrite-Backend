@@ -27,7 +27,7 @@ exports.forgotPassword = async (req, res) => {
                 createdAt: Date.now()
             })
 
-            const link = `${process.env.CLIENT_URL}/#/examples/reset-password/${resetToken}`;
+            const link = `${process.env.CLIENT_URL}/#/reset-password/${resetToken}`;
             const html = fs.readFileSync("views/resetPasswordTemplate.html", "utf8");
 
             const render = ejs.render(html, {fullName: `${user.firstName} ${user.lastName}`, link})
