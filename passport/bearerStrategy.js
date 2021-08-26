@@ -14,7 +14,7 @@ passport.use(new BearerStrategy(async (token, done) => {
   }
   catch (err) {
     console.log(err);
-    return done(err)
+    return done(null, false);
   }
 }
 ));
